@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Ignore Node.js dependencies in all folders
+**/node_modules/
+
+# Ignore Next.js generated build files in all folders
+**/.next/
