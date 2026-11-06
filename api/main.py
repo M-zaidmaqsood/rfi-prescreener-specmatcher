@@ -1,4 +1,6 @@
+
 import json
+import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -26,6 +28,20 @@ from services.storage import (
 API_DIR = Path(__file__).resolve().parent
 CHUNKS_FILE = API_DIR / "data" / "chunks.json"
 
+# Local development is allowed by default.
+# In production, set FRONTEND_ORIGIN to the deployed frontend URL.
+frontend_origins = os.getenv(
+    "FRONTEND_ORIGIN",
+    "http://localhost:3000,http://127.0.0.1:3000",
+)
+
+allowed_origins = [
+    origin.strip().rstrip("/")
+    for origin in frontend_origins.split(",")
+    if origin.strip()
+]
+
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     initialize_database()
@@ -38,11 +54,12 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan,
 )
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=allowed_origins,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 
