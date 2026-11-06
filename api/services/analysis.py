@@ -76,7 +76,7 @@ def _generate_with_gemini(question: str, retrieved: list[dict[str, Any]]) -> dic
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY is not configured.")
 
-    model = _env_value("GEMINI_GENERATION_MODEL", "gemini-2.5-flash")
+    model = _env_value("GEMINI_GENERATION_MODEL", "gemini-2.5-flash").strip()
     evidence = "\n\n".join(
         f"[{item['section_id']} - {item['title']}]\n{item['text']}"
         for item in retrieved
