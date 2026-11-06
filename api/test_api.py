@@ -4,13 +4,54 @@ from fastapi.testclient import TestClient
 
 import main
 from services import storage
-from services.analysis import verify_quote
+from services.analysis import analyze_rfi, verify_quote
 
 
 def test_quote_verification_is_exact_after_whitespace_normalization():
     source = "Concrete shall be placed in accordance with the approved mix design."
     assert verify_quote("Concrete   shall be placed in accordance with the approved mix design.", source)
     assert not verify_quote("Concrete shall always be placed by a licensed engineer.", source)
+
+
+def test_analysis_normalizes_section_id_before_verifying_quotes(monkeypatch):
+    source = "Concrete shall be placed in accordance with the approved mix design."
+    monkeypatch.setattr(
+        "services.analysis.retrieve_relevant_specs",
+        lambda *_args, **_kwargs: [{
+            "section_id": "03 30 00",
+            "title": "Cast-in-Place Concrete",
+            "text": source,
+            "similarity": 0.95,
+        }],
+    )
+    monkeypatch.setattr(
+        "services.analysis._generate_with_gemini",
+        lambda *_args: {
+            "provider": "GEMINI",
+            "confidence": 0.9,
+            "supporting_quotes": [
+                {
+                    "quote": source,
+                    "section_id": "03 30 00 - Cast-in-Place Concrete",
+                },
+                {
+                    "quote": "Concrete shall always be placed by a licensed engineer.",
+                    "section_id": "03 30 00 - Cast-in-Place Concrete",
+                },
+            ],
+        },
+    )
+
+    result = analyze_rfi("How should concrete be placed?", "Concrete", "")
+
+    assert result["supporting_quotes"] == [
+        {"quote": source, "section_id": "03 30 00", "verified": True},
+        {
+            "quote": "Concrete shall always be placed by a licensed engineer.",
+            "section_id": "03 30 00",
+            "verified": False,
+        },
+    ]
 
 
 def test_rfi_lifecycle_persists_review_and_audit(tmp_path: Path, monkeypatch):

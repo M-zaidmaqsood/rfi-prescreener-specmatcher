@@ -150,7 +150,12 @@ def analyze_rfi(
     verified_quotes = []
     for item in result.get("supporting_quotes", []):
         quote = item.get("quote") if isinstance(item, dict) else None
-        section_id = item.get("section_id") if isinstance(item, dict) else None
+        returned_section_id = item.get("section_id") if isinstance(item, dict) else None
+        section_id = (
+            returned_section_id.split(" - ", 1)[0].strip()
+            if isinstance(returned_section_id, str)
+            else returned_section_id
+        )
         source = valid_sections.get(section_id, "")
         verified_quotes.append({
             "quote": quote,
