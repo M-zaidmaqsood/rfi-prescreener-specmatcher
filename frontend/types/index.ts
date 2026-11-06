@@ -1,71 +1,61 @@
-
 export interface SpecSection {
   id: string;
-  sectionNumber: string;
+  section_id: string;
   title: string;
-  content: string;
+  text: string;
+  similarity?: number;
 }
 
-export type Recommendation =
-  | "DEFLECT_ALREADY_IN_SPECS"
-  | "DEFLECT_DUPLICATE_RFI"
-  | "VALID_GAP_ESCALATE_TO_ARCHITECT";
-
-export type RFIStatus =
-  | "PENDING_REVIEW"
-  | "APPROVED"
-  | "DEFLECTED";
-
-export interface RFIAnalysis {
-  recommendation: Recommendation;
-  confidence: number;
-  matchedSectionId: string | null;
-  matchedSectionNumber: string | null;
-  matchedSectionTitle: string | null;
-  citedQuote: string | null;
-  isVerbatimVerified: boolean;
-  reasoning: string;
-  draft: {
-    subject: string;
-    clarifiedQuestion: string;
-    suggestedSolution: string;
-    costImpact: string;
-    scheduleImpact: string;
-  } | null;
+export interface SupportingQuote {
+  quote: string | null;
+  section_id: string | null;
+  verified: boolean;
 }
 
-export interface RFIInquiry {
-  id: string;
-  question: string;
-  trade: string;
-  drawingReference: string;
-  urgency: "LOW" | "MEDIUM" | "HIGH";
-  recommendation: Recommendation;
+export interface Draft {
+  subject: string;
+  clarified_question: string;
+  suggested_solution: string;
+  cost_impact: string;
+  schedule_impact: string;
+}
+
+export interface Analysis {
+  provider: string;
+  fallback_reason?: string;
+  preliminary_assessment: string;
+  recommendation: string;
   confidence: number;
-  matchedSectionId: string | null;
-  matchedSectionNumber: string | null;
-  matchedSectionTitle: string | null;
-  citedQuote: string | null;
-  isVerbatimVerified: boolean;
-  reasoning: string;
-  draft: RFIAnalysis["draft"];
-  status: RFIStatus;
-  createdAt: string;
+  specification_sections: SpecSection[];
+  supporting_quotes: SupportingQuote[];
+  relevance_explanation: string;
+  potential_gaps: string[];
+  follow_up_questions: string[];
+  human_review_recommendation: string;
+  draft: Draft | null;
 }
 
 export interface AuditLogEntry {
   id: string;
-  inquiryId: string;
-  action: "APPROVED" | "DEFLECTED" | "EDITED";
+  rfi_id: string;
+  action: string;
   reviewer: string;
   notes: string;
+  previous_status: string | null;
+  new_status: string | null;
   timestamp: string;
 }
 
-export interface ReviewRequest {
-  inquiryId: string;
-  decision: "APPROVED" | "DEFLECTED";
-  reviewer: string;
-  notes: string;
-  editedDraft?: RFIAnalysis["draft"];
+export interface RFIInquiry {
+  id: string;
+  title: string;
+  question: string;
+  trade: string;
+  drawing_reference: string;
+  urgency: "LOW" | "MEDIUM" | "HIGH";
+  status: "PENDING_REVIEW" | "APPROVED" | "DEFLECTED";
+  created_at: string;
+  updated_at: string;
+  analysis: Analysis;
+  audit_logs: AuditLogEntry[];
 }

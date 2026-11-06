@@ -45,6 +45,7 @@ next-env.d.ts
 __pycache__/
 *.py[cod]
 .pytest_cache/
+api/data/*.sqlite3
 
 # Ignore Node.js dependencies in all folders
 **/node_modules/

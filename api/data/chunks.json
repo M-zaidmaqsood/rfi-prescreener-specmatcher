@@ -1,0 +1,37 @@
+[
+  {
+    "id": "03-30-00",
+    "section_id": "03 30 00",
+    "title": "Cast-in-Place Concrete",
+    "clause_ref": null,
+    "text": "Concrete shall be placed in accordance with the approved mix design. Concrete placement shall not begin until the formwork, reinforcement, embedded items, and required inspections have been completed and approved. Concrete shall be consolidated using mechanical vibration to ensure proper placement around reinforcement and embedded items. Construction joints shall be located as indicated on the approved drawings or as approved by the structural engineer."
+  },
+  {
+    "id": "07-21-00",
+    "section_id": "07 21 00",
+    "title": "Thermal Insulation",
+    "clause_ref": null,
+    "text": "Provide rigid insulation boards with a minimum thermal resistance as specified in the project drawings. Insulation shall be installed continuously without gaps or voids. Boards shall be tightly fitted around penetrations and openings. Damaged or wet insulation shall not be installed. Installation shall follow the manufacturer's written instructions."
+  },
+  {
+    "id": "09-29-00",
+    "section_id": "09 29 00",
+    "title": "Gypsum Board",
+    "clause_ref": null,
+    "text": "Gypsum board shall be installed with joints staggered between adjacent rows. Fasteners shall be spaced in accordance with the manufacturer's installation requirements. All joints, corners, and fastener heads shall receive joint compound and tape. Provide moisture-resistant gypsum board in locations identified on the project drawings. Finished surfaces shall be smooth and ready for the specified paint finish."
+  },
+  {
+    "id": "22-00-00",
+    "section_id": "22 00 00",
+    "title": "Plumbing",
+    "clause_ref": null,
+    "text": "Plumbing piping materials shall comply with the approved project specifications and applicable codes. Pipe supports and hangers shall be installed at intervals recommended by the manufacturer. All piping systems shall be pressure tested before concealment. Leaks and defective connections shall be repaired and retested before acceptance."
+  },
+  {
+    "id": "23-00-00",
+    "section_id": "23 00 00",
+    "title": "HVAC",
+    "clause_ref": null,
+    "text": "HVAC equipment shall be installed in accordance with approved shop drawings and manufacturer instructions. Ductwork shall be sealed at joints and connections to minimize air leakage. Equipment shall be accessible for inspection, maintenance, and servicing. Testing and balancing shall be completed before final commissioning."
+  }
+]

@@ -1,29 +1,9 @@
 
-import { NextResponse } from "next/server";
-import { rfiInquiries } from "@/lib/store";
+import { NextRequest } from "next/server";
+import { proxyBackend } from "@/lib/backend";
 
-export async function GET() {
-  try {
-    const inquiries = [...rfiInquiries].sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() -
-        new Date(a.createdAt).getTime()
-    );
+export const instant = false;
 
-    return NextResponse.json({
-      success: true,
-      count: inquiries.length,
-      inquiries,
-    });
-  } catch (error) {
-    console.error("Failed to load RFI queue:", error);
-
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Unable to load the RFI review queue.",
-      },
-      { status: 500 }
-    );
-  }
+export async function GET(request: NextRequest) {
+  return proxyBackend("/api/rfi/queue", request, "GET");
 }

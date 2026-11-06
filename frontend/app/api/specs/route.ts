@@ -1,23 +1,9 @@
 
-import { NextResponse } from "next/server";
-import specs from "@/data/specs.json";
+import { NextRequest } from "next/server";
+import { proxyBackend } from "@/lib/backend";
 
-export async function GET() {
-  try {
-    return NextResponse.json({
-      success: true,
-      count: specs.length,
-      specs,
-    });
-  } catch (error) {
-    console.error("Failed to load specifications:", error);
+export const instant = false;
 
-    return NextResponse.json(
-      {
-        success: false,
-        error: "Unable to load project specifications.",
-      },
-      { status: 500 }
-    );
-  }
+export async function GET(request: NextRequest) {
+  return proxyBackend("/api/specs", request, "GET");
 }
